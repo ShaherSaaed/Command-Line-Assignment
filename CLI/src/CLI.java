@@ -8,16 +8,11 @@ public class CLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-        String command;
         while (running) {
             System.out.print("> ");
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
-            if(inputParts[0].equals("ls")&&inputParts.length>1){
-                command = inputParts[0].toLowerCase()+' '+inputParts[1].toLowerCase();
-            }else{
-                command = inputParts[0].toLowerCase();
-            }
+            String command=inputParts[0];
             String[] commandArgs = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
             switch (command) {
@@ -28,13 +23,23 @@ public class CLI {
                     new CdCommand().execute(commandArgs);
                     break;
                 case "ls":
-                    new LsCommand().execute(commandArgs);
-                    break;
-                case "ls -a":
-                    new LsACommand().execute(commandArgs);
-                    break;
-                case "ls -r":
-                    new LsRCommand().execute(commandArgs);
+                    if(inputParts.length==2){
+                        switch (inputParts[1]){
+                            case "-a":
+                                new LsACommand().execute(commandArgs);
+                                break;
+                            case "-r":
+                                new LsRCommand().execute(commandArgs);
+                                break;
+                            default:
+                                System.out.println("Unknown command: " + command +' '+inputParts[1]);
+                                break;
+                        }
+                    }else if(inputParts.length ==1) {
+                        new LsCommand().execute(commandArgs);
+                    }else{
+                        System.out.println("Unknown command");
+                    }
                     break;
                 case "mkdir":
                     new MkdirCommand().execute(commandArgs);
