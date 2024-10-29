@@ -8,12 +8,16 @@ public class CLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-
+        String command;
         while (running) {
             System.out.print("> ");
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
-            String command = inputParts[0].toLowerCase();
+            if(inputParts[0].equals("ls")&&inputParts.length>1){
+                command = inputParts[0].toLowerCase()+' '+inputParts[1].toLowerCase();
+            }else{
+                command = inputParts[0].toLowerCase();
+            }
             String[] commandArgs = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
             switch (command) {
