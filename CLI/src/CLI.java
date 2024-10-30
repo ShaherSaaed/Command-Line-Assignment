@@ -39,7 +39,35 @@ public class CLI {
                                 System.out.println("Unknown command: " + command + ' ' + inputParts[1]);
                                 break;
                         }
-                    } else if (inputParts.length == 1) {
+                    } else if (inputParts.length == 3) { //ls >> <file>
+                        switch (inputParts[1]) {
+                            case ">>":
+                                new AppendRedirectLsCommand().execute(currentDirectory, commandArgs);
+                                break;
+                            case ">":
+                                new RedirectLsCommand().execute(currentDirectory, commandArgs);
+                                break;
+                        }
+
+                    } else if (inputParts.length == 4) { // ls -<argument> >> <file>
+                        switch (inputParts[1]) {
+                            case "-a":
+                                if (inputParts[2].equals(">>")) {
+                                    new AppendRedirectLsACommand().execute(currentDirectory, commandArgs);
+                                } else if (inputParts[2].equals(">")) {
+                                    new RedirectLsACommand().execute(currentDirectory, commandArgs);
+                                }
+                                break;
+                            case "-r":
+                                if (inputParts[2].equals(">>")) {
+                                    new AppendRedirectLsRCommand().execute(currentDirectory, commandArgs);
+                                } else if (inputParts[2].equals(">")) {
+                                    new RedirectLsRCommand().execute(currentDirectory, commandArgs);
+                                }
+                                break;
+                        }
+
+                    } else if (inputParts.length == 1) { // ls
                         new LsCommand().execute(currentDirectory, commandArgs);
                     } else {
                         System.out.println("Unknown command");
@@ -61,13 +89,35 @@ public class CLI {
                     new RmCommand().execute(currentDirectory, commandArgs);
                     break;
                 case "cat":
-                    new CatCommand().execute(currentDirectory, commandArgs);
-                    break;
-                case ">":
-                    new RedirectCommand().execute(commandArgs);
-                    break;
-                case ">>":
-                    new AppendRedirectCommand().execute(commandArgs);
+                    if (inputParts.length == 4) {
+                        switch (inputParts[2]) {
+                            case ">>":
+                                new AppendRedirectCatCommand().execute(currentDirectory, commandArgs);
+                                break;
+                            case ">":
+                                new RedirectCatCommand().execute(currentDirectory, commandArgs);
+                                break;
+                        }
+                    } else if (inputParts.length == 3) {
+                        if (inputParts[0].equals("cat")) {
+                            switch (inputParts[1]) {
+                                case ">>":
+                                    new AppendRedirectCatCommand().execute(currentDirectory, commandArgs);
+                                    break;
+                                case ">":
+                                    new RedirectCatCommand().execute(currentDirectory, commandArgs);
+                                    break;
+                            }
+                        }
+                    } else {
+                        new CatCommand().execute(currentDirectory, commandArgs);
+                        break;
+                    }
+//                case ">":
+//                    new RedirectCommand().execute(commandArgs);
+//                    break;
+//                case ">>":
+//                    new AppendRedirectCommand().execute(commandArgs);
                     break;
                 case "|":
                     new PipeCommand().execute(commandArgs);

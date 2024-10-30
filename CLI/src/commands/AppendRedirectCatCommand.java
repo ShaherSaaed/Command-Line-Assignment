@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-public class AppendRedirectCommand {
+public class AppendRedirectCatCommand {
     public void execute(File currentDirectory, String[] args) { //index of first file is 0, second file is 2
         if (args[1].equals(">>")) {
             String file1Name = args[0];
