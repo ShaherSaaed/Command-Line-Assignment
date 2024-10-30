@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class CatCommand {
     public void execute(File currentDirectory, String[] args) {
         if (args.length < 1) {
-            System.out.println("Error: Missing file name.");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            System.out.println(input);
             return;
         }//reading
         String content = "";
