@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class LsCommand {
     public void execute(File currentDirectory, String[] args) {
-//        String directoryPath = "."; //Needs to be changed to match current working directory
         File directory = new File(String.valueOf(currentDirectory));
         File[] files = directory.listFiles();
 
