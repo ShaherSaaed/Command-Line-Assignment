@@ -14,7 +14,7 @@ public class CLI {
             System.out.print("> ");
             String input = scanner.nextLine();
             String[] inputParts = input.split(" ");
-            String command=inputParts[0];
+            String command = inputParts[0];
             String[] commandArgs = Arrays.copyOfRange(inputParts, 1, inputParts.length);
 
             switch (command) {
@@ -27,21 +27,23 @@ public class CLI {
                     currentDirectory = cdCommand.getCurrentDirectory();
                     break;
                 case "ls":
-//                    if(inputParts.length==2){
-//                        switch (inputParts[1]){
-//                            case "-a":
-//                                new LsACommand().execute(currentDirectory, commandArgs);                                break;
+                    if (inputParts.length == 2) {
+                        switch (inputParts[1]) {
+                            case "-a":
+                                new LsACommand().execute(currentDirectory, commandArgs);
+                                break;
 //                            case "-r":
-//                                new LsRCommand().execute(currentDirectory, commandArgs);                                break;
-//                            default:
-//                                System.out.println("Unknown command: " + command +' '+inputParts[1]);
+//                                new LsRCommand().execute(currentDirectory, commandArgs);
 //                                break;
-//                        }
-//                    }else if(inputParts.length ==1) {
-//                        new LsCommand().execute(currentDirectory, commandArgs);
-//                    }else{
-//                        System.out.println("Unknown command");
-//                    }
+                            default:
+                                System.out.println("Unknown command: " + command + ' ' + inputParts[1]);
+                                break;
+                        }
+                    } else if (inputParts.length == 1) {
+                        new LsCommand().execute(currentDirectory, commandArgs);
+                    } else {
+                        System.out.println("Unknown command");
+                    }
                     break;
                 case "mkdir":
                     new MkdirCommand().execute(currentDirectory, commandArgs);
@@ -59,7 +61,7 @@ public class CLI {
                     new RmCommand().execute(currentDirectory, commandArgs);
                     break;
                 case "cat":
-                    new CatCommand().execute(commandArgs);
+                    new CatCommand().execute(currentDirectory, commandArgs);
                     break;
                 case ">":
                     new RedirectCommand().execute(commandArgs);
