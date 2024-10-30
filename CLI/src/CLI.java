@@ -32,9 +32,9 @@ public class CLI {
                             case "-a":
                                 new LsACommand().execute(currentDirectory, commandArgs);
                                 break;
-//                            case "-r":
-//                                new LsRCommand().execute(currentDirectory, commandArgs);
-//                                break;
+                            case "-r":
+                                new LsRCommand().execute(currentDirectory, commandArgs);
+                                break;
                             default:
                                 System.out.println("Unknown command: " + command + ' ' + inputParts[1]);
                                 break;
