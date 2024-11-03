@@ -1,14 +1,12 @@
 package commands;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
 public class AppendRedirectCatCommand {
-    public void execute(File currentDirectory, String[] args) { //index of first file is 0, second file is 2
+    public void execute(File currentDirectory, String[] args) { 
         if (args[1].equals(">>")) {
             String file1Name = args[0];
             String file2Name = args[2];
@@ -70,6 +68,37 @@ public class AppendRedirectCatCommand {
                 }
             }
 
+        }
+    }
+    public void execute(File currentDirectory, String[] args, InputStream inputStream) {
+    if (args[2].equals(">>")) {
+            String fileName = args[3];
+            Path filePath = currentDirectory.toPath().resolve(fileName);
+            File file = new File(filePath.toString());
+
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                    System.out.println("Created new file: " + fileName);
+                } catch (IOException e) {
+                    System.out.println("Error creating file " + fileName + ": " + e.getMessage());
+                    return;
+                }
+            }
+            try (FileWriter writer = new FileWriter(file, true);
+                 BufferedReader reader = inputStream != null
+                         ? new BufferedReader(new InputStreamReader(inputStream))
+                         : new BufferedReader(new InputStreamReader(System.in))) {
+
+                System.out.println("Enter content to append (end with ']'):");
+                String line;
+                while ((line = reader.readLine()) != null && !line.equals("]")) {
+                    writer.write(line + System.lineSeparator());
+                    System.out.println("Content added to: " + fileName);
+                }
+            } catch (IOException e) {
+                System.out.println("Error writing to " + fileName + ": " + e.getMessage());
+            }
         }
     }
 }
